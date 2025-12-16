@@ -1,4 +1,5 @@
 import React from "react"
+import './Cartela.css'
 
 function Cartela({ cartela }){
   
@@ -7,27 +8,20 @@ function Cartela({ cartela }){
   }
 
   return(
-    <div>
-        {cartela.map((linha, indexLinha) =>(
-          <div key={indexLinha} style={{ display: "flex"}}>
-            {linha.map((numero, indexColuna) =>(
-              <div
-              key={indexColuna}
-              style={{
-                width: 40,
-                height: 40,
-                border: "1px solid black",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-              >
-              {numero ?? ""}
+    <div className='cartela'>
+      {cartela.map((linha, indexLinha) =>(
+        <div key={indexLinha} className="cartela-linha">
+          {linha.map((celula, indexColuna) => (
+            <div
+            key={indexColuna}
+            className={`cartela-celula ${celula.marcado ? "marcada" : ""}`}
+            >
+              {celula.valor ?? ""}
               </div>
-            ))}
-          </div> 
-        ))}
-      </div>
+          ))}
+          </div>
+      ) )}
+    </div>
   )
 }
 
