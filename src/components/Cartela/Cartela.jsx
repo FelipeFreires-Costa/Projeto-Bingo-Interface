@@ -1,5 +1,6 @@
 import React from "react"
 import './Cartela.css'
+import Celula from "../Celula/Celula"
 
 function Cartela({ cartela }){
   
@@ -9,15 +10,17 @@ function Cartela({ cartela }){
 
   return(
     <div className='cartela'>
+      {/* percorre cada linha da cartela */}
       {cartela.map((linha, indexLinha) =>(
-        <div key={indexLinha} className="cartela-linha">
+        // cada linha é um container horizontal
+        <div key={indexLinha} style={{display: "flex"}}>
+          {/* percorre cada celula da linha */}
           {linha.map((celula, indexColuna) => (
-            <div
+            <Celula
             key={indexColuna}
-            className={`cartela-celula ${celula.marcado ? "marcada" : ""}`}
-            >
-              {celula.valor ?? ""}
-              </div>
+            valor={celula.valor}
+            marcado={celula.marcado}
+            />
           ))}
           </div>
       ) )}
