@@ -3,3 +3,24 @@
   color: white;
   font-weight: bold;
 }
+
+.cartela {
+  display: inline-block;
+}
+
+.linha-letras,
+.linha-cartela {
+  display: flex;
+  justify-content: space-between;
+}
+
+.letra {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}

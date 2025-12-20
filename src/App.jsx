@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Cartela from "./components/Cartela/Cartela";
 import { verificarBingo } from "./utils/verificarBingo";
+import '../src/App.css'
 
 function App() {
   // -------------------------------
@@ -19,9 +20,14 @@ function App() {
   // Serve para mostrar na tela
   const [numeroAtual, setNumeroAtual] = useState(null);
 
+  //controla se bateu o bingo
+  const [bingo, setBingo] = useState(false)
+
   // -------------------------------
   // FUNÇÃO PARA GERAR A CARTELA
   // -------------------------------
+
+  const LETRAS = ["B", "I", "N", "G", "O"];
 
   function gerarCartela() {
     const novaCartela = [];
@@ -36,16 +42,38 @@ function App() {
         if (linha === 2 && coluna === 2) {
           linhaAtual.push({
             valor: null,
-            marcado: true, // centro já começa marcado
+            marcado: true,
+            letra: "N" // centro já começa marcado
           });
-        } else {
-          linhaAtual.push({
-            valor: Math.floor(Math.random() * 75) + 1,
-            marcado: false,
-          });
+          continue
         }
+
+        //definir o intervalo da coluna
+        const min = coluna * 15 + 1;
+        const max = min + 14
+
+        let numero
+        let repetido
+
+        //sorteia ate achar um numero valido
+        do{
+
+          numero = Math.floor(Math.random() * (max - min + 1)) + min
+
+          repetido = novaCartela.some((linhaExistente) =>
+            linhaExistente[coluna]?.valor === numero
+          )
+        } while (repetido)
+
+          //cria a celula
+          linhaAtual.push({
+            valor: numero,
+            marcado: false,
+            letra: LETRAS[coluna]
+          })
       }
 
+      //adiciona a linha pronta na cartela
       novaCartela.push(linhaAtual);
     }
 
@@ -55,6 +83,9 @@ function App() {
     // Reseta o histórico e o número atual
     setNumerosSorteados([]);
     setNumeroAtual(null);
+
+    //reseta o bingo ao gerar nova cartela
+    setBingo(false)
   }
 
   // -------------------------------
@@ -90,7 +121,7 @@ function App() {
     const deuBingo = verificarBingo(novaCartela);
 
     if (deuBingo) {
-      alert("🎉 BINGO! 🎉");
+      setBingo(true)
     }
   }
 
@@ -99,6 +130,10 @@ function App() {
   // -------------------------------
 
   function sortearNumero() {
+
+    //se ja deu bingo, nao sorteia mais
+    if(bingo) return
+
     // Se todos os números já foram sorteados, para
     if (numerosSorteados.length === 75) return;
 
@@ -109,14 +144,24 @@ function App() {
       numero = Math.floor(Math.random() * 75) + 1;
     } while (numerosSorteados.includes(numero));
 
+    const indiceLetra = Math.floor((numero -1) / 15)
+    const letra = LETRAS[indiceLetra]
+
     // Atualiza o histórico de números sorteados
     setNumerosSorteados((prev) => [...prev, numero]);
 
     // Atualiza o número atual (visual)
-    setNumeroAtual(numero);
+    setNumeroAtual({numero, letra});
 
-    // Marca o número na cartela
-    marcarNumeroNaCartela(numero);
+const cartelaAtualizada = cartela.map((linha) =>
+    linha.map((celula) => {
+      if (celula.valor === numero) {
+        return { ...celula, marcado: true };
+      }
+      return celula;
+    })
+  );
+    setCartela(cartelaAtualizada)
   }
 
   // -------------------------------
@@ -124,7 +169,7 @@ function App() {
   // -------------------------------
 
   return (
-    <div>
+    <div className="container-principal">
       <h1>Bingo</h1>
 
       <button onClick={gerarCartela}>
@@ -136,8 +181,14 @@ function App() {
       </button>
 
       {/* Mostra apenas o último número sorteado */}
-      {numeroAtual !== null && (
-        <p>Número sorteado: {numeroAtual}</p>
+      {numeroAtual && (
+        <p>Número sorteado: <strong> {numeroAtual.letra}: {numeroAtual.numero}</strong></p>
+      )}
+
+      {bingo && (
+        <h2 style={{color: "green"}}>
+          🎉 BINGO! 🎉
+        </h2>
       )}
 
       {/* Renderiza a cartela */}

@@ -2,14 +2,24 @@ import React from "react"
 import './Cartela.css'
 import Celula from "../Celula/Celula"
 
+const LETRAS = ["B", "I", "N", "G", "O"];
 function Cartela({ cartela }){
   
   if(!cartela){
     return null
   }
 
+
   return(
     <div className='cartela'>
+      <div className="linha-letras">
+        {LETRAS.map((letra) => (
+          <div key={letra} className="letra">
+            {letra}
+          </div>
+        ))}
+      </div>
+      
       {/* percorre cada linha da cartela */}
       {cartela.map((linha, indexLinha) =>(
         // cada linha é um container horizontal
