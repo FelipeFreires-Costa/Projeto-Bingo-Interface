@@ -1,0 +1,10 @@
+.numero{
+  display: flex;
+}
+
+.lista-numeros{
+  gap: 10px;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+}

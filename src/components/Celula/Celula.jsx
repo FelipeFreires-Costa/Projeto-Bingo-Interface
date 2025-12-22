@@ -1,8 +1,15 @@
 import React from "react";
 
-function Celula({valor, marcado}){
+function Celula({valor, marcado, onMarcarNumero}){
+  function handleClick(){
+    if(valor !== null){
+      onMarcarNumero(valor)
+    }
+  }
+
   return (
     <div
+    onClick={handleClick}
     style={{
       width: 40,
         height: 40,

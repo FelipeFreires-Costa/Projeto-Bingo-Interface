@@ -3,7 +3,7 @@ import './Cartela.css'
 import Celula from "../Celula/Celula"
 
 const LETRAS = ["B", "I", "N", "G", "O"];
-function Cartela({ cartela }){
+function Cartela({ cartela, onMarcarNumero }){
   
   if(!cartela){
     return null
@@ -30,6 +30,7 @@ function Cartela({ cartela }){
             key={indexColuna}
             valor={celula.valor}
             marcado={celula.marcado}
+            onMarcarNumero={onMarcarNumero}
             />
           ))}
           </div>

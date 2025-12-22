@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Cartela from "./components/Cartela/Cartela";
+import Historico from "./components/Historico/Historico";
 import { verificarBingo } from "./utils/verificarBingo";
 import '../src/App.css'
 
@@ -93,36 +94,27 @@ function App() {
   // -------------------------------
 
   function marcarNumeroNaCartela(numero) {
-    // Criamos uma NOVA cartela baseada na atual
-    const novaCartela = cartela.map((linha) =>
-      linha.map((celula) => {
-        // Se for o centro vazio, não muda nada
-        if (celula.valor === null) {
-          return celula;
-        }
+    //so marca se o numero ja foi sorteado
+    const foiSorteado = numerosSorteados.some(
+      (item) => item.numero === numero
+    )
 
-        // Se o valor da célula for igual ao número sorteado
-        if (celula.valor === numero) {
-          return {
-            ...celula,
-            marcado: true, // marca a célula
-          };
-        }
+    if(!foiSorteado) return
 
-        // Caso contrário, retorna a célula sem alteração
-        return celula;
-      })
-    );
+    const novaCartela = cartela.map((linha) => 
+    linha.map((celula) =>{
+      if(celula.valor === null) return celula
 
-    // Atualiza o estado com a nova cartela
-    setCartela(novaCartela);
+      if(celula.valor === numero){
+        return {...celula, marcado: true}
+      }
+      return celula
+    })
+    )
+    setCartela(novaCartela)
 
-    // Verifica se houve bingo usando a cartela ATUALIZADA
-    const deuBingo = verificarBingo(novaCartela);
-
-    if (deuBingo) {
-      setBingo(true)
-    }
+    const deuBingo = verificarBingo(novaCartela)
+    if(deuBingo) setBingo(true)
   }
 
   // -------------------------------
@@ -147,21 +139,16 @@ function App() {
     const indiceLetra = Math.floor((numero -1) / 15)
     const letra = LETRAS[indiceLetra]
 
+    const sorteioAtual = {
+      numero: numero,
+      letra: letra,
+    }
+
     // Atualiza o histórico de números sorteados
-    setNumerosSorteados((prev) => [...prev, numero]);
+    setNumerosSorteados((prev) => [...prev, sorteioAtual]);
 
     // Atualiza o número atual (visual)
-    setNumeroAtual({numero, letra});
-
-const cartelaAtualizada = cartela.map((linha) =>
-    linha.map((celula) => {
-      if (celula.valor === numero) {
-        return { ...celula, marcado: true };
-      }
-      return celula;
-    })
-  );
-    setCartela(cartelaAtualizada)
+    setNumeroAtual(sorteioAtual);
   }
 
   // -------------------------------
@@ -192,7 +179,9 @@ const cartelaAtualizada = cartela.map((linha) =>
       )}
 
       {/* Renderiza a cartela */}
-      <Cartela cartela={cartela} />
+      <Cartela cartela={cartela} onMarcarNumero={marcarNumeroNaCartela} />
+
+      <Historico numeros={numerosSorteados} />
     </div>
   );
 }
