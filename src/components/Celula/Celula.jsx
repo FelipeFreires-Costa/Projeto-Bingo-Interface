@@ -1,31 +1,23 @@
-import React from "react";
+import "./Celula.css";
 
-function Celula({valor, marcado, onMarcarNumero}){
-  function handleClick(){
-    if(valor !== null){
-      onMarcarNumero(valor)
+function Celula({ valor, marcado, onMarcarNumero }) {
+  function handleClick() {
+    if (valor !== null) {
+      onMarcarNumero(valor);
     }
   }
 
-  return (
-    <div
-    onClick={handleClick}
-    style={{
-      width: 40,
-        height: 40,
-        border: "1px solid black",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+  const classes = [
+    "celula",
+    marcado ? "celula-marcada" : "",
+    valor === null ? "celula-centro" : ""
+  ].join(" ");
 
-        backgroundColor: marcado ? "#4caf50" : "white",
-        color: marcado ? "white" : "black",
-        fontWeight: marcado ? "bold" : "normal",
-    }}
-    >
-      {valor ?? ""}
+  return (
+    <div className={classes} onClick={handleClick}>
+      {valor === null ? "FREE" : valor}
     </div>
-  )
+  );
 }
 
-export default Celula
+export default Celula;

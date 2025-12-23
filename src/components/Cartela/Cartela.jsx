@@ -14,7 +14,7 @@ function Cartela({ cartela, onMarcarNumero }){
     <div className='cartela'>
       <div className="linha-letras">
         {LETRAS.map((letra) => (
-          <div key={letra} className="letra">
+          <div key={letra} className={`letra letra-${letra}`}>
             {letra}
           </div>
         ))}

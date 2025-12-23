@@ -1,0 +1,35 @@
+.celula {
+  width: 55px;
+  height: 55px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  border: 2px solid #333;
+
+  background-color: #111;
+  color: #fff;
+  gap: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.celula:hover {
+  border-color: #9482b5;
+}
+
+/* Marcada */
+.celula-marcada {
+  background-color: #5b0ed5fb;
+}
+
+/* Centro */
+.celula-centro {
+  background-color: #222;
+  color: #5b0ed5fb;
+  cursor: default;
+}

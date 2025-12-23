@@ -1,0 +1,22 @@
+.welcome-container {
+  height: 100vh;
+  background-color: #0b0b0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  gap: 30px;
+}
+
+.logo {
+  font-size: 64px;
+  color: white;
+  letter-spacing: 8px;
+}
+
+.start-button {
+  padding: 15px 40px;
+  font-size: 18px;
+  cursor: pointer;
+}

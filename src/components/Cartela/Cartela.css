@@ -1,26 +1,55 @@
-.cartela-celula.marcada {
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
-}
-
 .cartela {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
-.linha-letras,
-.linha-cartela {
+/* Linha das letras */
+.linha-letras {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+
 }
 
 .letra {
-    display: flex;
-    width: 40px;
-    height: 40px;
-    font-weight: bold;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
+  
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Cores por letra */
+.letra-B {
+  font-size: 2rem;
+  color: #2b8cc7;
+  border-bottom: 3px solid #2b8cc7;
+}
+
+.letra-I {
+  font-size: 2rem;
+  color: #aa1414;
+  border-bottom: 3px solid #aa1414;
+}
+
+.letra-N {
+  font-size: 2rem;
+  color: #8abb52;
+  border-bottom: 3px solid #8abb52;
+}
+
+.letra-G {
+  font-size: 2rem;
+  color: #ff7b00ff;
+  border-bottom: 3px solid #ff7b00ff;
+}
+
+.letra-O {
+  font-size: 2rem;
+  color: #a36498;
+  border-bottom: 3px solid #a36498;
 }

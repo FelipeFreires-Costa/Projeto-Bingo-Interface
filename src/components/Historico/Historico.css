@@ -8,3 +8,22 @@
   display: flex;
   justify-content: space-around;
 }
+
+.historico-container{
+  width: 400px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+}
+
+.sorteios{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.sorteios span{
+  margin: 4px;
+  padding: 8px;
+  border-radius: 10px;
+}

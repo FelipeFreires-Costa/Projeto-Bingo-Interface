@@ -1,22 +1,47 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Cartela from "./components/Cartela/Cartela";
 import Historico from "./components/Historico/Historico";
+import Welcome from "./components/Welcome/Welcome";
 import { verificarBingo } from "./utils/verificarBingo";
 import '../src/App.css'
+import {CORES_LETRAS} from "./coresBingos"
+
+const LETRAS = ["B", "I", "N", "G", "O"];
+
+const LIMITES = {
+  B: [1, 15],
+  I: [16, 30],
+  N: [31, 45],
+  G: [46, 60],
+  O: [61, 75],
+};
 
 function App() {
   // -------------------------------
   // ESTADOS DO APLICATIVO
   // -------------------------------
 
+  //tela bemvindo
+  const [tela, setTela] = useState("welcome")
+
   // Estado que guarda a cartela inteira
   // Começa como null porque ainda não foi gerada
   const [cartela, setCartela] = useState(null);
+
+  const [rodando, setRodando] = useState(false)
+
+
 
   // Guarda TODOS os números que já foram sorteados
   // Serve para não repetir números
   const [numerosSorteados, setNumerosSorteados] = useState([]);
 
+
+      const numerosSorteadosRef = useRef([])
+  
+  useEffect(() => {
+    numerosSorteadosRef.current = numerosSorteados
+  }, [numerosSorteados])
   // Guarda apenas o último número sorteado
   // Serve para mostrar na tela
   const [numeroAtual, setNumeroAtual] = useState(null);
@@ -29,6 +54,7 @@ function App() {
   // -------------------------------
 
   const LETRAS = ["B", "I", "N", "G", "O"];
+
 
   function gerarCartela() {
     const novaCartela = [];
@@ -115,6 +141,11 @@ function App() {
 
     const deuBingo = verificarBingo(novaCartela)
     if(deuBingo) setBingo(true)
+
+      if(deuBingo){
+        setBingo(true)
+        setRodando(false)
+      }
   }
 
   // -------------------------------
@@ -127,61 +158,115 @@ function App() {
     if(bingo) return
 
     // Se todos os números já foram sorteados, para
-    if (numerosSorteados.length === 75) return;
+    if (numerosSorteadosRef.length >= 75){
+      setRodando(false)
+      return
+    }
 
-    let numero;
+    let numero, letra;
 
     // Sorteia até encontrar um número que ainda não foi sorteado
     do {
-      numero = Math.floor(Math.random() * 75) + 1;
-    } while (numerosSorteados.includes(numero));
+      letra = LETRAS[Math.floor(Math.random() * LETRAS.length)];
+      const [min, max] = LIMITES[letra];
+      numero = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    const indiceLetra = Math.floor((numero -1) / 15)
-    const letra = LETRAS[indiceLetra]
+    } while (numerosSorteadosRef.current.some((item) => item.numero === numero)
+    );
 
-    const sorteioAtual = {
-      numero: numero,
-      letra: letra,
-    }
+    const novoSorteio = { letra, numero}
 
-    // Atualiza o histórico de números sorteados
-    setNumerosSorteados((prev) => [...prev, sorteioAtual]);
+    setNumeroAtual(novoSorteio)
+    setNumerosSorteados((prev) => [...prev, novoSorteio])
 
-    // Atualiza o número atual (visual)
-    setNumeroAtual(sorteioAtual);
   }
+function iniciarSorteio() {
+  if (rodando) return;
+
+  sortearNumero();
+  setRodando(true);
+}
+
+function pararSorteio() {
+  setRodando(false);
+}
+
+useEffect(() => {
+  //se nao estiver rodando, nao faça nada
+  if(!rodando) return
+
+  //cria o intervalo
+  const intervalo = setInterval(() => {
+    sortearNumero()
+  }, 4500)
+
+  //funçao de limpeza (IMPORTANTE)
+  return () => {
+    clearInterval(intervalo)
+  }
+}, [rodando])
 
   // -------------------------------
   // RENDERIZAÇÃO DA TELA
   // -------------------------------
 
-  return (
+    return (
     <div className="container-principal">
-      <h1>Bingo</h1>
-
-      <button onClick={gerarCartela}>
-        Gerar Cartela
-      </button>
-
-      <button onClick={sortearNumero} disabled={!cartela}>
-        Sortear Número
-      </button>
-
-      {/* Mostra apenas o último número sorteado */}
-      {numeroAtual && (
-        <p>Número sorteado: <strong> {numeroAtual.letra}: {numeroAtual.numero}</strong></p>
+      {/* ===== TELA DE BOAS-VINDAS ===== */}
+      {tela === "welcome" && (
+        <Welcome onStart={() => setTela("game")} />
       )}
 
-      {bingo && (
-        <h2 style={{color: "green"}}>
-          🎉 BINGO! 🎉
-        </h2>
+      {/* ===== TELA DO JOGO ===== */}
+      {tela === "game" && (
+        <>
+          <h1 className="neon">Bingo</h1>
+        <div className="botoes">
+          <button onClick={gerarCartela}
+          >
+            Gerar Cartela
+          </button>
+
+              {!rodando ? (
+        <button onClick={iniciarSorteio}
+          disabled={!cartela}
+          className={!cartela ? "btn-disabled" : ""}>
+          Iniciar Sorteio
+        </button>
+      ) : (
+        <button onClick={pararSorteio}>
+          Parar Sorteio
+        </button>
+)}
+        </div>
+
+        <div className="sorteados">
+          <p>Numeros sorteados: </p>
+          {numeroAtual && (
+          <h3
+            style={{ background: CORES_LETRAS[numeroAtual.letra]}}
+          >
+            {numeroAtual.letra}  {numeroAtual.numero}
+          </h3>
+        
+          )}
+        </div>
+
+          {bingo && (
+            <h2 style={{ color: "green" }}>
+              🎉 BINGO! 🎉
+            </h2>
+          )}
+
+          <Cartela
+            cartela={cartela}
+            onMarcarNumero={marcarNumeroNaCartela}
+          />
+          <div className="historico">
+          <Historico numeros={numerosSorteados} />
+          </div>
+        </>
       )}
-
-      {/* Renderiza a cartela */}
-      <Cartela cartela={cartela} onMarcarNumero={marcarNumeroNaCartela} />
-
-      <Historico numeros={numerosSorteados} />
     </div>
   );
 }
