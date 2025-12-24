@@ -33,4 +33,6 @@ Separação de responsabilidades
 Organização de projeto em React
 Pensamento em fluxo de aplicação (início, execução e fim)
 
+Acesse para testar: https://projeto-bingo-interface.vercel.app/
+
 <img width="553" height="843" alt="image" src="https://github.com/user-attachments/assets/a86e9803-3a2c-439f-83e9-4500fff185d7" />
