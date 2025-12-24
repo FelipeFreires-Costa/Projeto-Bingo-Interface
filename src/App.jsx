@@ -5,6 +5,7 @@ import Welcome from "./components/Welcome/Welcome";
 import { verificarBingo } from "./utils/verificarBingo";
 import '../src/App.css'
 import {CORES_LETRAS} from "./coresBingos"
+import ModalVitoria from "./components/ModalVitoria/ModalVitoria";
 
 const LETRAS = ["B", "I", "N", "G", "O"];
 
@@ -30,7 +31,8 @@ function App() {
 
   const [rodando, setRodando] = useState(false)
 
-
+  //modal
+  const [modalAberto, setModalAberto] = useState(false)
 
   // Guarda TODOS os números que já foram sorteados
   // Serve para não repetir números
@@ -146,6 +148,10 @@ function App() {
         setBingo(true)
         setRodando(false)
       }
+
+      if(deuBingo){
+        setModalAberto(true)
+      }
   }
 
   // -------------------------------
@@ -223,6 +229,7 @@ useEffect(() => {
           <h1 className="neon">Bingo</h1>
         <div className="botoes">
           <button onClick={gerarCartela}
+          className="botoes-bingo"
           >
             Gerar Cartela
           </button>
@@ -230,11 +237,11 @@ useEffect(() => {
               {!rodando ? (
         <button onClick={iniciarSorteio}
           disabled={!cartela}
-          className={!cartela ? "btn-disabled" : ""}>
+          className={!cartela ? "btn-disabled" : "botoes-bingo " }>
           Iniciar Sorteio
         </button>
       ) : (
-        <button onClick={pararSorteio}>
+        <button className="botao-parar" onClick={pararSorteio}>
           Parar Sorteio
         </button>
 )}
@@ -252,10 +259,14 @@ useEffect(() => {
           )}
         </div>
 
-          {bingo && (
-            <h2 style={{ color: "green" }}>
-              🎉 BINGO! 🎉
-            </h2>
+          {modalAberto && (
+            <ModalVitoria
+            onClose={() => setModalAberto(false)}
+            onReiniciar={() => {
+              gerarCartela()
+              setModalAberto(false)
+            }}
+            />
           )}
 
           <Cartela
