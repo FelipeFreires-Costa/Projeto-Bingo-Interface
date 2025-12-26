@@ -1,16 +1,38 @@
-# React + Vite
+🎲 Bingo em React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto pessoal desenvolvido com React + JavaScript, com foco em lógica de programação, controle de estado, componentização e fluxo real de jogo.
 
-Currently, two official plugins are available:
+O objetivo foi sair do tutorial hell e praticar a construção de uma aplicação do zero, lidando com problemas reais ao longo do desenvolvimento.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Funcionalidades
 
-## React Compiler
+Geração de cartela 5x5 seguindo as regras oficiais do Bingo
+Colunas organizadas por letras B I N G O
+Intervalos corretos de números por coluna
+Centro da cartela livre e já marcado
+Sorteio automático de números a cada intervalo de tempo
+Sorteio sem repetição
+Histórico de números sorteados
+Marcação manual da cartela (interação do usuário)
+Verificação de Bingo:
+Linhas
+Colunas
+Diagonais
+Modal de vitória ao atingir Bingo
+Interface com tema escuro e estilo neon
+Tela de boas-vindas antes do jogo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🧠 Conceitos praticados
 
-## Expanding the ESLint configuration
+Lógica de programação em JavaScript
+Arrays, objetos e loops
+Imutabilidade de estado
+useState e useEffect
+Comunicação entre componentes (props)
+Separação de responsabilidades
+Organização de projeto em React
+Pensamento em fluxo de aplicação (início, execução e fim)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Acesse para testar: https://projeto-bingo-interface.vercel.app/
+
+<img width="553" height="843" alt="image" src="https://github.com/user-attachments/assets/a86e9803-3a2c-439f-83e9-4500fff185d7" />
