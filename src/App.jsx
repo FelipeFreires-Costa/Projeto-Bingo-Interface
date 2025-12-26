@@ -204,7 +204,7 @@ useEffect(() => {
   //cria o intervalo
   const intervalo = setInterval(() => {
     sortearNumero()
-  }, 4500)
+  }, 5500)
 
   //funçao de limpeza (IMPORTANTE)
   return () => {
